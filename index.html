@@ -1,0 +1,119 @@
+<!--
+
+    - ACTION: LOAD: just a standard JS object / array
+    - ACTION: EDIT: appears as a bunch of editable boxes
+    - ACTION: COMMIT: saves to a file and reloads [maybe from just-saved-but-still-in-memory file instead of reloading from disk]
+
+-->
+
+<html>
+
+    <body>
+
+        <a id="btn" href="javascript:void(0);">Edit</a>
+        <ul id="nice"></ul>
+
+        <script>
+
+            /*
+                - How will we track binding of JS objects to nodes? (ie where the edit controls etc are shown?)
+                - Think about what the function signatures should be
+            */
+
+            // ACTIVEX FSO: 1 = read, 2 = write, 8 = append
+            // https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/opentextfile-method
+            // https://www.w3schools.com/asp/asp_ref_filesystem.asp
+
+            // Read file to JS
+
+            function read_file(filepath) {
+                var fso = new ActiveXObject("Scripting.FileSystemObject");
+                var file = fso.OpenTextFile(filepath, 1);
+                var content = file.ReadAll();
+                file.Close();
+                return content;
+            }
+
+            // Render JS to page
+
+            function render_array(id, array) {
+                const list_node = document.getElementById(id);
+                list_node.innerHTML = '';
+                array.forEach(function(x) {
+                    const text_node = document.createTextNode(x);
+                    const item_node = document.createElement("li");
+                    item_node.appendChild(text_node);
+                    list_node.appendChild(item_node);
+                })
+            }
+
+            // Edit mode
+
+            function edit_array(id) {
+                const list_node = document.getElementById(id);
+                temp_list = [];
+                Array.prototype.forEach.call(list_node.childNodes, function(n) {
+                    const input_node = document.createElement("input");
+                    input_node.setAttribute("value", n.innerHTML);
+                    const item_node = document.createElement("li");
+                    item_node.appendChild(input_node);
+                    temp_list.push(item_node);
+                });
+                list_node.innerHTML = '';             
+                temp_list.forEach(function(item_node) {list_node.appendChild(item_node) });
+                console.log(temp_list);
+            }
+
+            // Write HTML to JS
+            
+            function commit_list(array, list_node) {
+                array.length = 0; // https://stackoverflow.com/a/1234337/996380
+                Array.prototype.forEach.call(list_node.childNodes, function(li_node) {
+                    array.push(li_node.childNodes[0].value);
+                })
+                return array;
+            }
+
+            // Save JS to file
+
+            function write_file(filepath, text) {
+                var fso = new ActiveXObject("Scripting.FileSystemObject");
+                var file = fso.OpenTextFile(filepath, 2);
+                file.write(text)
+                file.Close();
+            }
+
+            function write_array(filepath, array) {
+                const content = array.join("\r\n");
+                write_file(filepath, content);
+            }
+
+            // Test
+
+            const node = document.getElementById("nice");
+            const btn = document.getElementById("btn");
+            btn.onclick = edit;
+
+            function commit(e) {
+                commit_list(read_array, node);
+                write_array(array_path, read_array);
+                render_array("nice", read_array);
+                btn.innerHTML = "Edit";
+                btn.onclick = edit;
+            }
+
+            function edit(e) {
+                edit_array("nice");
+                btn.innerHTML = "Commit";
+                btn.onclick = commit;
+            }
+
+            const array_path = "C:/Users/Chris/Google Drive/Code/monotreme/sample.txt";
+            const read_array = read_file(array_path).split("\r\n");;
+            render_array("nice", read_array);
+
+        </script>
+
+    </body>
+
+</html>
