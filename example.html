@@ -2,28 +2,28 @@
 
     <head>
         <script src="./monotreme.js"></script>
+        <style>
+            textarea { font-family: Consolas }
+        </style>
     </head>
 
     <body>
 
         <a id="btn" href="javascript:void(0);">Edit</a>
-        <br />
-        <textarea id="node" rows=20 cols=30 placeholder="Type some text here..."></textarea>
+        <br /><br />
+        <textarea id="node" rows=6 cols=30 placeholder="Type some text here..."></textarea>
 
         <script>
 
-            // Example
-
             const o = {
                 __proto__: Monotreme,
-                path: "C:/Users/Chris/Google Drive/Code/monotreme/sample.txt",
+                path: "C:/Users/Chris/Google Drive/Code/monotreme/example.txt",
                 node: document.getElementById("node")
             }
 
-            o.load();
+            window.onload = o.load;
 
-            // Set up a button
-
+            // Set up a button for edit/save
             const btn = document.getElementById("btn");
             const btn_edit = function() {o.edit(); btn.innerHTML = "Save"; btn.onclick = btn_save}
             const btn_save = function() {o.save(); btn.innerHTML = "Edit"; btn.onclick = btn_edit}
