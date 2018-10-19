@@ -1,10 +1,31 @@
-/* Monotreme */
+// Monotreme: See, edit and save data to a file system from your browser
+// See README for how to use: https://github.com/chrispsn/monotreme
 
-/*
-    - ACTION: LOAD: just a standard JS object / array
-    - ACTION: EDIT: appears as a bunch of editable boxes
-    - ACTION: COMMIT: saves to a file and reloads [maybe from just-saved-but-still-in-memory file instead of reloading from disk]
-*/
+const Monotreme = {
+    get IO() {
+        return (this.path.slice(0, 4) === "http") 
+            ? (alert("Remote IO not implemented yet."), null) // TODO fill in for WebDAV
+            : IO_activex
+    },
+    load: function() {
+        this.data = this.IO.load(this.path);
+        this.render();
+    },
+    save: function() {
+        this.data = this.node.value; // TODO What if we need to read the data into a JS equivalent like a {}, not just text?
+        this.IO.save(this.path, this.data);
+        this.render();
+    },
+    render: function() {
+        // TODO move into load, delete method, and just load again after saving?
+        this.node.setAttribute("placeholder", this.data);
+        this.node.disabled = true;
+    },
+    edit: function() {
+        this.node.disabled = false;
+        this.node.value = this.data;
+    },
+}
 
 // ACTIVEX FSO: 1 = read, 2 = write, 8 = append
 // https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/opentextfile-method
@@ -26,53 +47,23 @@ const IO_activex = {
 }
 
 /*
-    - How will we track binding of JS objects to nodes? (ie where the edit controls etc are shown?)
-    - Think about what the function signatures should be
+    NOTES
+
+    DOM_node
+    file_address
+    IO_fns? (determine from file address?)
+    JS_value (created?)
+    current_mode?
+    line ending type (for reading from disk)?
+    label text? (implies need a parent div?)
+    edit/commit_fns? (textarea, ul/ol, k-v?) (or infer from DOM_node?)
+    save/load UI button node?
+
+    Free text (obviate new cell /delete cell?)
+    Enter to commit? (Incompat w above? Maybe OK if a textarea How to trigger edit - double-click? gets rid of button...)
+    Register {Id, node, data, path}?
+    Save and load fns for IE11 and WebDAV
+
+    Should I be more opinionated about managing the edit/save button? Easier setup but maybe less flexible for user
+    Should I even be providing this wrapper prototype instead of just providing a library of functions?
 */
-
-// Render JS to page
-
-function render_array(id, array) {
-    const list_node = document.getElementById(id);
-    list_node.innerHTML = '';
-    array.forEach(function(x) {
-        const text_node = document.createTextNode(x);
-        const item_node = document.createElement("li");
-        item_node.appendChild(text_node);
-        list_node.appendChild(item_node);
-    })
-}
-
-// Edit mode
-
-function edit_array(id) {
-    const list_node = document.getElementById(id);
-    temp_list = [];
-    Array.prototype.forEach.call(list_node.childNodes, function(n) {
-        const input_node = document.createElement("input");
-        input_node.setAttribute("value", n.innerHTML);
-        const item_node = document.createElement("li");
-        item_node.appendChild(input_node);
-        temp_list.push(item_node);
-    });
-    list_node.innerHTML = '';             
-    temp_list.forEach(function(item_node) {list_node.appendChild(item_node) });
-    console.log(temp_list);
-}
-
-// Write HTML to JS
-
-function commit_list(array, list_node) {
-    array.length = 0; // https://stackoverflow.com/a/1234337/996380
-    Array.prototype.forEach.call(list_node.childNodes, function(li_node) {
-        array.push(li_node.childNodes[0].value);
-    })
-    return array;
-}
-
-// Save JS to file
-
-function write_array(filepath, array) {
-    const content = array.join("\r\n");
-    IO_activex.save(filepath, content);
-}

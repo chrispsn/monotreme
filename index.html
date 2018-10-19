@@ -7,33 +7,27 @@
     <body>
 
         <a id="btn" href="javascript:void(0);">Edit</a>
-        <ul id="nice"></ul>
+        <br />
+        <textarea id="node" rows=20 cols=30 placeholder="Type some text here..."></textarea>
 
         <script>
 
-            // Test
+            // Example
 
-            const node = document.getElementById("nice");
+            const o = {
+                __proto__: Monotreme,
+                path: "C:/Users/Chris/Google Drive/Code/monotreme/sample.txt",
+                node: document.getElementById("node")
+            }
+
+            o.load();
+
+            // Set up a button
+
             const btn = document.getElementById("btn");
-            btn.onclick = edit;
-
-            function commit(e) {
-                commit_list(read_array, node);
-                write_array(array_path, read_array);
-                render_array("nice", read_array);
-                btn.innerHTML = "Edit";
-                btn.onclick = edit;
-            }
-
-            function edit(e) {
-                edit_array("nice");
-                btn.innerHTML = "Commit";
-                btn.onclick = commit;
-            }
-
-            const array_path = "C:/Users/Chris/Google Drive/Code/monotreme/sample.txt";
-            const read_array = IO_activex.load(array_path).split("\r\n");;
-            render_array("nice", read_array);
+            const btn_edit = function() {o.edit(); btn.innerHTML = "Save"; btn.onclick = btn_save}
+            const btn_save = function() {o.save(); btn.innerHTML = "Edit"; btn.onclick = btn_edit}
+            btn.onclick = btn_edit;
 
         </script>
 
