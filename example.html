@@ -12,25 +12,21 @@
 
         <script>
 
+            const o = {
+                __proto__: Monotreme,
+                path: "C:/Users/Chris/Google Drive/Code/monotreme/example.txt",
+                node: document.getElementById("node")
+            };
+
+            // Set up a button for edit/save
+            const btn = document.getElementById("btn");
+            const btn_edit = function() {o.edit(); btn.innerHTML = "Save"; btn.onclick = btn_save}
+            const btn_save = function() {o.save(); btn.innerHTML = "Edit"; btn.onclick = btn_edit}
+            btn.onclick = btn_edit;
+
             // Otherwise IE11 will prefill the textarea with its value prior to refresh
             // https://stackoverflow.com/a/19209573/996380
-            window.onload = function() {
-
-                const o = {
-                    __proto__: Monotreme,
-                    path: "C:/Users/Chris/Google Drive/Code/monotreme/example.txt",
-                    node: document.getElementById("node")
-                };
-
-                o.load();
-
-                // Set up a button for edit/save
-                const btn = document.getElementById("btn");
-                const btn_edit = function() {o.edit(); btn.innerHTML = "Save"; btn.onclick = btn_save}
-                const btn_save = function() {o.save(); btn.innerHTML = "Edit"; btn.onclick = btn_edit}
-                btn.onclick = btn_edit;
-
-            }
+            window.onload = function() { o.load() }
 
         </script>
 
