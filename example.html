@@ -2,32 +2,35 @@
 
     <head>
         <script src="./monotreme.js"></script>
-        <style>
-            textarea { font-family: Consolas }
-        </style>
     </head>
 
     <body>
 
         <a id="btn" href="javascript:void(0);">Edit</a>
         <br /><br />
-        <textarea id="node" rows=6 cols=30 placeholder="Type some text here..."></textarea>
+        <textarea id="node" rows=6 cols=30 placeholder="Type some text here..." style="font-family: Consolas, monospace"></textarea>
 
         <script>
 
-            const o = {
-                __proto__: Monotreme,
-                path: "C:/Users/Chris/Google Drive/Code/monotreme/example.txt",
-                node: document.getElementById("node")
+            // Otherwise IE11 will prefill the textarea with its value prior to refresh
+            // https://stackoverflow.com/a/19209573/996380
+            window.onload = function() {
+
+                const o = {
+                    __proto__: Monotreme,
+                    path: "C:/Users/Chris/Google Drive/Code/monotreme/example.txt",
+                    node: document.getElementById("node")
+                };
+
+                o.load();
+
+                // Set up a button for edit/save
+                const btn = document.getElementById("btn");
+                const btn_edit = function() {o.edit(); btn.innerHTML = "Save"; btn.onclick = btn_save}
+                const btn_save = function() {o.save(); btn.innerHTML = "Edit"; btn.onclick = btn_edit}
+                btn.onclick = btn_edit;
+
             }
-
-            window.onload = o.load; // Otherwise IE11 will prefill the textarea with its value prior to refresh
-
-            // Set up a button for edit/save
-            const btn = document.getElementById("btn");
-            const btn_edit = function() {o.edit(); btn.innerHTML = "Save"; btn.onclick = btn_save}
-            const btn_save = function() {o.save(); btn.innerHTML = "Edit"; btn.onclick = btn_edit}
-            btn.onclick = btn_edit;
 
         </script>
 
