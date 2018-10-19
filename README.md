@@ -2,7 +2,7 @@
 
 Monotreme is a light way to read, see, edit and write data in a filesystem via your browser.
 
-Local files currently uses Internet Explorer 11's ActiveX controls (yikes!). Remote file support is coming (via WebDAV).
+Local IO currently uses Internet Explorer 11's ActiveX controls (yikes!). Remote IO support is coming (via WebDAV).
 
 It's called Monotreme because WebDAV is old and a bit 'against the grain' of common webdev practice.
 
