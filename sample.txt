@@ -1,3 +1,4 @@
-alpha
+platypus
+echidna
 1234
 http://www.google.com
