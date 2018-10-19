@@ -1,23 +1,17 @@
 # Monotreme
 
-Monotreme is a light way to read in, edit, and write data to files at an address you choose (local drive or on a web server).
-
-Local save currently uses Internet Explorer 11's ActiveX controls (yikes!). Remote save is coming and is planned to use WebDAV.
-
-It's called Monotreme because WebDAV is old and a bit 'against the grain' of common webdev practice.
+Monotreme helps you see and edit data in files via your browser. You can choose the file's path (local drive or web server).
 
 ![Example GIF](example.gif)
 
-## Technical
+Local save currently uses Internet Explorer 11's ActiveX controls (yikes!). Remote save (WebDAV) is coming soon.
+
+## Usage
 
 Monotreme is an object prototype. It provides methods for:
 
-- reading data from a file into a JavaScript equivalent (currently .txt into a JS string; maybe .json arrays and objects)
+- reading data from a user-specified file into a JavaScript equivalent (currently .txt into a JS string; maybe .json arrays and objects)
 - visualising and editing the JS data via form elements
-- saving JS data to a file.
+- saving JS data to a user-specified file.
 
-This allows you to maintain data on a local or remote server via your browser.
-
-The file can be local (via ActiveX; IE11 only) or remote (via WebDAV).
-
-See example.index for how it can be used.
+See example.html.
