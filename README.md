@@ -1,6 +1,6 @@
 # Monotreme
 
-Monotreme helps you see and edit data in files via your browser. You can choose the file's path (local drive or web server).
+Monotreme helps you see and edit data in files via your browser. You choose the file's path (local drive or web server).
 
 ![Example GIF](example.gif)
 
