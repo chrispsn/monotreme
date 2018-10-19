@@ -21,7 +21,7 @@
                 node: document.getElementById("node")
             }
 
-            window.onload = o.load;
+            window.onload = o.load; // Otherwise IE11 will prefill the textarea with its value prior to refresh
 
             // Set up a button for edit/save
             const btn = document.getElementById("btn");
