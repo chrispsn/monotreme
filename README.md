@@ -10,7 +10,7 @@ It's called Monotreme because WebDAV is old and a bit 'against the grain' of com
 
 Monotreme is an object prototype. It provides methods for:
 
-- reading data from a file into a JavaScript equivalent (.txt, .json, etc)
+- reading data from a file into a JavaScript equivalent (currently .txt into a JS string; maybe .json arrays and objects)
 - visualising and editing the JS data via form elements
 - saving JS data to a file.
 
