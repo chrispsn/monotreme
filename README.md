@@ -1,10 +1,11 @@
 # Monotreme
 
-Monotreme helps you see and edit data in files via your browser. You choose the file's path (local drive or web server).
+Monotreme helps you see and edit data in files via your browser. You choose the file's location (local drive filepath or web server URL).
 
 ![Example GIF](example.gif)
 
-Local save currently uses Internet Explorer 11's ActiveX controls (yikes!). Remote save (WebDAV) is coming soon.
+Local save currently uses Internet Explorer 11's ActiveX controls. Yikes! 
+Remote save uses WebDAV. Have fun configuring your server!
 
 ## Usage
 

@@ -4,7 +4,7 @@
 const Monotreme = {
     get IO() {
         return (this.path.slice(0, 4) === "http") 
-            ? (alert("Remote IO not implemented yet."), null) // TODO fill in for WebDAV
+            ? IO_webdav
             : IO_activex
     },
     load: function() {
@@ -29,7 +29,7 @@ const Monotreme = {
 // ACTIVEX FSO: 1 = read, 2 = write, 8 = append
 // https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/opentextfile-method
 // https://www.w3schools.com/asp/asp_ref_filesystem.asp
-const IO_activex = {
+const IO_activex = !("ActiveXObject" in window) ? {} : {
     _fso: new ActiveXObject("Scripting.FileSystemObject"),
     load: function (filepath) {
         var file = this._fso.OpenTextFile(filepath, 1);
@@ -41,6 +41,21 @@ const IO_activex = {
         var file = this._fso.OpenTextFile(filepath, 2);
         file.write(text)
         file.Close();
+    }
+};
+const IO_webdav = {
+    load: function(url) {
+        var oReq = new XMLHttpRequest();
+        oReq.open("GET", url, false);
+        oReq.send();
+        return oReq.responseText
+    },
+    save: function(url, text) {
+        var oReq = new XMLHttpRequest();
+        oReq.open("PUT", url, false);
+        oReq.setRequestHeader("Content-Type", "text/xml; charset=UTF-8");
+        oReq.send(text);
+        return oReq.responseText;
     }
 }
 
