@@ -4,7 +4,8 @@ Monotreme helps you see and edit data in files via your browser. You choose the 
 
 ![Example GIF](example.gif)
 
-Local save currently uses Internet Explorer 11's ActiveX controls. Yikes! 
+Local save currently uses Internet Explorer 11's ActiveX controls. Yikes!
+
 Remote save uses WebDAV. Have fun configuring your server!
 
 ## Usage
