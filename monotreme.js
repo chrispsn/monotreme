@@ -52,10 +52,9 @@ const IO_webdav = {
     },
     save: function(url, text) {
         const r = new XMLHttpRequest();
-        r.open("PUT", url, false);
+        r.open("PUT", url, true);
         r.setRequestHeader("Content-Type", "text/xml; charset=UTF-8"); // TODO is this needed?
         r.send(text);
-        return r.responseText;
     }
 }
 
