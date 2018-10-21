@@ -3,7 +3,7 @@
 
 const Monotreme = {
     get IO() {
-        return (this.path.slice(0, 4) === "http") 
+        return (this.path.slice(0, 4) === "http")
             ? IO_webdav
             : IO_activex
     },
@@ -45,17 +45,17 @@ const IO_activex = !("ActiveXObject" in window) ? {} : {
 };
 const IO_webdav = {
     load: function(url) {
-        var oReq = new XMLHttpRequest();
-        oReq.open("GET", url, false);
-        oReq.send();
-        return oReq.responseText
+        const r = new XMLHttpRequest();
+        r.open("GET", url, false);
+        r.send();
+        return r.responseText
     },
     save: function(url, text) {
-        var oReq = new XMLHttpRequest();
-        oReq.open("PUT", url, false);
-        oReq.setRequestHeader("Content-Type", "text/xml; charset=UTF-8");
-        oReq.send(text);
-        return oReq.responseText;
+        const r = new XMLHttpRequest();
+        r.open("PUT", url, false);
+        r.setRequestHeader("Content-Type", "text/xml; charset=UTF-8"); // TODO is this needed?
+        r.send(text);
+        return r.responseText;
     }
 }
 
